@@ -370,6 +370,8 @@ def delete_post(post_id):
     return redirect(url_for('best_spots'))
 
 
+
+
 @app.route('/logout')
 @login_required
 def logout():
