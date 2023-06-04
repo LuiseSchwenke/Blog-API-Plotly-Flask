@@ -36,9 +36,9 @@
           <li class="active"><a href={{url_for('forecast')}}>Surf Forecast</a></li>
           <li><a class="drop" style="color:#6AAEBF" href={{url_for('lifestyle')}}>Lifestyle</a>
             <ul>
-              <li><a href="pages/gallery.html">Tips from Pros</a></li>
-              <li><a href="pages/full-width.html">Flat Days Training </a></li>
-              <li><a href="pages/sidebar-left.html">Surf Playlist</a></li>
+              <li><a href="{{url_for('pro_tips')}}">Tips from Pros</a></li>
+              <li><a href="{{url_for('flat_days')}}">Flat Days Training </a></li>
+              <li><a href="{{url_for('lifestyle')}}">Surf Playlist</a></li>
             </ul>
           </li>
           <li><a href="{{url_for('about')}}" style="color:#810955">About ElasSurfam</a></li>
@@ -49,9 +49,9 @@
     </header>
 
  </div>
- <!-- Posts -->
+ <!-- Map + flash of map doesn't work -->
 <div style="margin-top:100px">
-        <h4 style="text-align:center; color:#810955"> Our Collection Of Spots On The Map</h4>
+        <h1 style="text-align:center; color:#810955"> Our Collection Of Spots On The Map</h1>
          <div style="text-align:center"><img src='static/images/worldmap.png'/></div>
     {% with messages = get_flashed_messages() %}
    {% if messages %}
@@ -60,8 +60,12 @@
       {% endfor %}
    {% endif %}
 {% endwith %}
+
+
+     <!-- Posts -->
+    <h1 style="text-align:center; color:#810955; margin-top:50px">Best Spots Collection</h1>
  {% for post in all_posts %}
-   <header class="masthead">
+   <header class="masthead" style="margin-top:50px">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -107,7 +111,7 @@
                       <a class="btn btn-outline-danger" href="{{url_for('home')}}" style="margin-top:30px; float:right">Register or Login to contribute a new Spot</a>
 
             {% else %}
-          <a class="btn btn-outline-danger" href="{{url_for('new_spot')}}" style="margin-bottom:50px; float:right">Add New Spot</a>
+          <a class="btn btn-outline-danger" href="{{url_for('new_spot')}}" style="margin-top:30px; float:right">Share Your Favourite Spot</a>
 {% endif %}
         </div>
       </div>

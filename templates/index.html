@@ -16,9 +16,7 @@
 <div class="bgded" style="background-image:url('static/images/beach.jpg'); opacity:0.7" >
 
 
-  <!-- #################################################################">
-
- ################################################################################################ -->
+  <!-- nav bar -->
   <div class="sticky">
   <div class="wrapper row1">
     <header id="header" class="hoc clear">
@@ -39,7 +37,7 @@
       </div>
       <div class="modal-body">
         <p><form method="post" role="form">
-        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {{ wtf.quick_form(form1, novalidate=True, button_map={"submit1": "primary"}) }}
 </form></p>
       </div>
 
@@ -60,7 +58,7 @@
       </div>
       <div class="modal-body">
         <p><form method="post" role="form">
-        {{ wtf.quick_form(formtwo, novalidate=True, button_map={"submit": "primary"}) }}
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit2": "primary"}) }}
 </form></p>
       </div>
 
@@ -82,8 +80,9 @@
           <li class="active"><a href={{url_for('forecast')}}>Surf Forecast</a></li>
           <li><a class="drop" style="color:#6AAEBF" href={{url_for('lifestyle')}}>Lifestyle</a>
             <ul>
-              <li><a href="pages/gallery.html">Tips from Pros</a></li>
-              <li><a href="pages/full-width.html">Flat Days Training </a></li>
+              <li><a href="{{url_for('pro_tips')}}">Tips from Pros</a></li>
+              <li><a href="{{url_for('flat_days')}}">Flat Days Training </a></li>
+              <li><a href="{{url_for('lifestyle')}}">Surf Playlist</a></li>
             </ul>
           </li>
           <li><a href="{{url_for('about')}}" style="color:#810955">About ElasSurfam</a></li>
@@ -98,7 +97,8 @@
     <article> 
       <!-- ################################################################################################ -->
       <h2 class="heading" style="color:#810955"><b>WE SURF THE WORLD</b></h2>
-      <p style="color:#810955; opacity:1 !important"><b>This blog is contributed especially to all the surfing woman. Get your wave forecast, WSL News and surf-lifestyle here!</b></p>
+      <p style="color:#810955; opacity:1 !important"><b>This blog is contributed to all the surfers. Get your wave forecast and WSL News here!
+          Dive into the surfing lifestyle!</b></p>
       <p class="font-x1 uppercase bold" style="color:#810955"><b>ElasSurfam - Surfergirls of Guaeca - Sao Paulo</b></p>
       <footer>
 
@@ -176,11 +176,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        {% for post in posts %}
+        <li data-target="#carouselExampleIndicators" data-slide-to="{{post.id}}"></li>
+         {% endfor %}
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -190,20 +192,17 @@
                 <p style="color:blue"> <b> {{clima_one}} </b> </p>
             </div>
         </div>
-        <div class="carousel-item ">
 
-            <center><img class="d-block w-50" src="{{second_img}}" alt="Second slide" style="opacity:0.8; border-radius: 25px;"></center>
+        {% for post in posts %}
+        <div class="carousel-item ">
+            <center><img class="d-block w-50" src="{{post.img_url}}" alt="Second slide" style="opacity:0.8; border-radius: 25px;"></center>
             <div class="carousel-caption d-none d-md-block">
-                <h5 style="color:blue"> <b> {{second_beach}}, {{country_two}} </b> </h5>
-                <p style="color:blue"> <b> {{clima_two}} </b> </p>
+                <h5 style="color:blue"> <b> {{post.name_beach}}, {{post.country}} </b> </h5>
+                <p style="color:blue"> <b> {{post.clima}} </b> </p>
             </div>
         </div>
+         {% endfor %}
 
-        <div class="carousel-item">
-
-            <center><img class="d-block w-50" src="{{second_img}}" alt="Third slide"></center>
-
-        </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -222,6 +221,8 @@
 </div>
   </footer>
 </div>
+
+ <!-- footer -->
 
 <div class="wrapper row5 footer-ending" style="margin-top:60px !important">
   <div id="copyright" class="hoc clear">

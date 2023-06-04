@@ -31,10 +31,10 @@
           <li class="active"><a href={{url_for('news')}}>WSL News</a></li>
           <li class="active"><a href={{url_for('forecast')}}>Surf Forecast</a></li>
           <li><a class="drop" style="color:#6AAEBF" href={{url_for('lifestyle')}}>Lifestyle</a>
-            <ul>
-              <li><a href="pages/gallery.html">Tips from Pros</a></li>
-              <li><a href="pages/full-width.html">Flat Days Training </a></li>
-              <li><a href="pages/sidebar-left.html">Surf Playlist</a></li>
+           <ul>
+              <li><a href="{{url_for('pro_tips')}}">Tips from Pros</a></li>
+              <li><a href="{{url_for('flat_days')}}">Flat Days Training </a></li>
+              <li><a href="{{url_for('lifestyle')}}">Surf Playlist</a></li>
             </ul>
           </li>
           <li><a href="{{url_for('about')}}" style="color:#810955">About ElasSurfam</a></li>
@@ -46,7 +46,11 @@
   </div>
 
         <!-- Ende Navigation bar -->
+<div style='background-image:url("https://cdn.pixabay.com/photo/2017/08/04/08/54/crash-2579437_1280.jpg"); height:700px; opacity: .6;'>
+     <h1 style="margin-top: 100px; text-align:center;"> COMING SOON</h1>
 
+  </div>
+      <!--
 <h1 style="margin-top:150px">About ELASSURFAM</h1>
 
 <div>
@@ -78,10 +82,12 @@ Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming 
         <img src="https://cdn.pixabay.com/photo/2023/05/28/07/42/zebra-8023066_1280.jpg">
     </p>
 
-       <!-- create a button that directs you to one of the html pages -->
+       create a button that directs you to one of the html pages
     <a class="btn btn-outline-dark" href="{{url_for('home')}}" target="_blank">go to homepage</a>
 
 </div>
+
+-->
 
 </body>
 </html>

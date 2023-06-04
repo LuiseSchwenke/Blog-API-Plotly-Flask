@@ -15,12 +15,7 @@ from functools import wraps
 from geopy.geocoders import Nominatim
 import arrow
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly
 import plotly.graph_objects as go
-from tabulate import tabulate
-import chart_studio.tools as tls
 
 import pycountry
 import plotly.express as px
@@ -109,38 +104,27 @@ with app.app_context():
 class RegisterForm(FlaskForm):
     name = StringField("Create a Name", validators=[DataRequired()])
     password = PasswordField("Create a Password", validators=[DataRequired()])
-    submit = SubmitField("Register")
+    submit1 = SubmitField("Register")
 
 
 class LoginForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Login")
+    submit2 = SubmitField("Login")
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    post = BlogPost.query.get(1)
-    url_of_img_one = post.img_url
-    beach_name_one = post.name_beach
-    country_one = post.country
-    clima_one = post.clima
+    posts = BlogPost.query.all()
+    post_one = BlogPost.query.get(2)
+    url_of_img_one = post_one.img_url
+    beach_name_one = post_one.name_beach
+    country_one = post_one.country
+    clima_one = post_one.clima
 
-    post = BlogPost.query.get(2)
-    url_of_img_two = post.img_url
-    beach_name_two = post.name_beach
-    country_two = post.country
-    clima_two = post.clima
-
-    # post_id_three = 3
-    # post = BlogPost.query.get(post_id_three)
-    # url_of_img_three = post.img_url
-    # beach_name_one = post.name_beach
-    # country_one = post.country
-    # clima_one = post.clima
-    form = RegisterForm()
-    if form.validate_on_submit():
-        if User.query.filter_by(name=form.name.data).first():
+    form1 = RegisterForm()
+    if form1.submit1.data and form1.validate():
+        if User.query.filter_by(name=form1.name.data).first():
             flash("This name already exists, please choose a different one")
             return redirect(url_for("home"))
         else:
@@ -149,17 +133,17 @@ def home():
                                                         salt_length=8)
             new_user = User(
                 password=hash_and_salted_pw,
-                name=form.name.data,
+                name=form1.name.data,
             )
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
             flash('You were successfully registered')
             return redirect(url_for('home'))
-    formtwo = LoginForm()
+    form = LoginForm()
     if request.method == 'POST':
-        name = request.formtwo.get("name")
-        password = request.formtwo.get("password")
+        name = request.form.get("name")
+        password = request.form.get("password")
         user = User.query.filter_by(name=name).first()
         if not user:
             flash("Sorry, please sign in first, your profile hasn't been created yet")
@@ -170,10 +154,8 @@ def home():
         else:
             login_user(user)
             return redirect(url_for("home"))
-    return render_template("index.html", form=form, formtwo=formtwo, current_user=current_user, first_img=url_of_img_one,
-                           second_img=url_of_img_two,
-                           first_beach=beach_name_one, second_beach=beach_name_two,
-                           county_one=country_one, country_two=country_two, clima_one=clima_one, clima_two=clima_two)
+    return render_template("index.html", form1=form1, form=form, current_user=current_user, first_img=url_of_img_one,
+                           first_beach=beach_name_one, country_one=country_one, clima_one=clima_one, posts=posts)
 
 
 @app.route('/about')
@@ -188,6 +170,7 @@ def lifestyle():
 
 @app.route('/news', methods=['GET', 'POST'])
 def news():
+
     date_today = date.today()
     today = date_today.strftime("%d/%m/%Y")
     all_ranks = [title.getText() for title in soup.find_all(name="span", class_="athlete-rank")]
@@ -195,7 +178,7 @@ def news():
     all_countries = [title.getText() for title in soup.find_all(name="span", class_="athlete-country-name")]
     all_points = [title.getText() for title in soup.find_all(name="span", class_="athlete-points")]
     all_data = {
-        'ranks': all_ranks,
+        'ranks':all_ranks,
         'names': all_names,
         'countries': all_countries,
         'points': all_points,
@@ -203,11 +186,14 @@ def news():
 
     data_one = [elem for elem in all_data.values()]
 
+    # --------------upcoming events----------------
+
     all_infos = [title.getText() for title in soup_two.find_all(name="span", class_="event-status")]
     date_range = [info.getText() for info in soup_two.find_all(name="td", class_="event-date-range")]
     events = [info.getText() for info in soup_two.find_all(name="a", class_="event-schedule-details__event-name")]
     location = [info.getText() for info in soup_two.find_all(name="span", class_="event-schedule-details__location")]
     tour = [info.getText() for info in soup_two.find_all(name="span", class_="event-tour-details__tour-name")]
+
 
     data_dict = {
         'dates': [],
@@ -249,25 +235,41 @@ def flat_days():
 @app.route('/best_spots', methods=['GET', 'POST'])
 def best_spots():
     DBcountries = []
-    countries={}
+    ISOS_list=[]
+    countries = {}
     posts = BlogPost.query.all()
     for post in posts:
         country = post.country
         DBcountries.append(country)
+    for letters in DBcountries:
+        first3 = letters[:3]
+        upper_letters= first3.upper()
+        ISOS_list.append(upper_letters)
     try:
         for country in pycountry.countries:
-            countries[country.name] = country.alpha_2
+            countries[country.name] = country.alpha_3
         codes = [countries.get(country, 'Unknown code') for country in DBcountries]
-        print(codes)
 
-        # ------- for blog: countries + count number of blog posts countries to make that count the colorscale
-        world_map = px.choropleth(codes,
-                                  locations=codes,
-                                  color='blue',
+        data = {
+            "country_name": DBcountries,
+            "ISO": codes,
+            "ISO3": ISOS_list
+        }
+        df = pd.DataFrame(data)
+        df.to_csv("worldmap.csv", encoding='utf-8')
+        worldmap_df = pd.read_csv("worldmap.csv")
+
+        df_countries = worldmap_df.groupby(['country_name', 'ISO'],
+                                        as_index=False).agg({'ISO3': pd.Series.count})
+
+        #print(df_countries.head())
+
+        world_map = px.choropleth(df_countries,
+                                  locations='ISO',
+                                  color='ISO3',
                                   color_continuous_scale=px.colors.sequential.matter,
-
                                   )
-
+        world_map.update_layout(coloraxis_showscale=True, )
         world_map.write_image(file='static/images/worldmap.png', format='png')
 
     except:
@@ -276,16 +278,6 @@ def best_spots():
     API_KEY = "AIzaSyBi8kM7dFLb10AxhKxgneOOM-XA0RQWzI4"
 
     return render_template("best_spots.html", all_posts=posts, api=API_KEY, current_user=current_user)
-
-
-
-
-
-
-
-
-
-
 
 
 class SpotForm(FlaskForm):
@@ -303,7 +295,6 @@ class SpotForm(FlaskForm):
 
 
 @app.route('/new_spot', methods=['GET', 'POST'])
-@admin_only
 def new_spot():
     try:
         form = SpotForm()
@@ -333,10 +324,10 @@ def new_spot():
 
 
 @app.route("/edit_post/<post_id>", methods=["GET", "POST"])
-@admin_only
 def edit_post(post_id):
     post = BlogPost.query.get(post_id)
     edit_form = SpotForm(
+        name_beach=post.name_beach,
         city=post.city,
         country=post.country,
         continent=post.continent,
@@ -351,11 +342,19 @@ def edit_post(post_id):
     )
 
     if edit_form.validate_on_submit():
-        post.title = edit_form.title.data
-        post.subtitle = edit_form.subtitle.data
-        post.author = edit_form.author.data
-        post.img_url = edit_form.img_url.data
-        post.body = edit_form.body.data
+        with app.app_context():
+            post.name_beach = edit_form.name_beach.data
+            post.city = edit_form.city.data
+            post.country = edit_form.country.data
+            post.continent = edit_form.continent.data
+            post.access = edit_form.access.data
+            post.clima = edit_form.clima.data
+            post.wave_quality = edit_form.wave_quality.data
+            post.infos = edit_form.infos.data
+            post.img_url = edit_form.img_url.data
+            post.maps_url = edit_form.maps_url.data
+            post.date = date.today()
+
         db.session.commit()
         return redirect(url_for('best_spots', post_id=post.id))
 
@@ -404,14 +403,15 @@ def forecast():
                                         'lat': lat,
                                         'lng': lon,
                                         'params': ','.join(
-                                            ['windSpeed', 'windDirection', 'airTemperature', 'waterTemperature', 'seaLevel'
+                                            ['windSpeed', 'windDirection', 'airTemperature', 'waterTemperature',
+                                             'seaLevel'
                                                 , 'swellHeight', 'waveDirection', 'waveHeight', 'wavePeriod',
                                              'currentDirection', 'currentSpeed']),
                                         'start': start.to('UTC').timestamp(),
                                         'end': end.to('UTC').timestamp()
 
                                     },
-                                    headers={'Authorization': API_KEY_LSC}
+                                    headers={'Authorization': API_KEY_RL}
                                     )
 
             data = response.json()
@@ -473,13 +473,21 @@ def forecast():
             )
             fig.write_image(file='static/images/new_plot.png', format='png')
             water_temp = df["water_temp"].mean()
+            short_water_temp = round(water_temp * 100) / 100
+
             air_temp_2 = df.loc[df['hour'] == 12, 'air_temp']
-            return render_template("FCPlot.html", water_temp=water_temp, air_temp_2=air_temp_2)
+            # my_air_temp = air_temp_2[0]
+            air_temp = round(air_temp_2 * 100) / 100
+
+            return render_template("FCPlot.html", short_water_temp=short_water_temp, air_temp=air_temp)
         except KeyError:
             flash("Please choose a city, that is located on a beach.")
 
     return render_template("forecast.html", form=form)
 
+@app.route('/pro_tips', methods=['GET', 'POST'])
+def pro_tips():
+    return render_template("pro_tips.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -9,10 +9,12 @@
 </head>
 
 <body>
+
+ <!-- nav bar -->
+
   <div class="sticky" style="background-color:black">
   <div class="wrapper row1">
     <header id="header" class="hoc clear">
-      <!-- ################################################################################################ -->
       <div id="logo" class="fl_left">
         <h1 style="color:#810955"><a href="https://www.instagram.com/elassurfamguaeca/" target="_blank">ElasSurfam <img src="static/images/instagram.svg"></a></h1>
       </div>
@@ -29,60 +31,110 @@
           <li class="active"><a href={{url_for('news')}}>WSL News</a></li>
           <li class="active"><a href={{url_for('forecast')}}>Surf Forecast</a></li>
           <li><a class="drop" style="color:#6AAEBF" href={{url_for('lifestyle')}}>Lifestyle</a>
-            <ul>
-              <li><a href="pages/gallery.html">Tips from Pros</a></li>
-              <li><a href="pages/full-width.html">Flat Days Training </a></li>
-              <li><a href="pages/sidebar-left.html">Surf Playlist</a></li>
+           <ul>
+              <li><a href="{{url_for('pro_tips')}}">Tips from Pros</a></li>
+              <li><a href="{{url_for('flat_days')}}">Flat Days Training </a></li>
+              <li><a href="{{url_for('lifestyle')}}">Surf Playlist</a></li>
             </ul>
           </li>
           <li><a href="{{url_for('about')}}" style="color:#810955">About ElasSurfam</a></li>
         </ul>
       </nav>
-
     </header>
       </div>
   </div>
 
+  <!-- nav bar end-->
+
+  <!-- top 5 men -->
   <div id="wrapper" style="margin-top:120px" >
       <p>Latest Update of the infos: {{today}}</p>
       <div id="first">
 <h4><b>Current WSL Top 5 Ranking Men</b></h4>
 
-    <h5>Ranking, name, country, points: </h5>
- <div class="mycolumn">
-      <div style=" float:left; width: 60px;"><p >Ranking: <br> <div class="top_style"> Name:</div> <br> <div class="top_style">Country: </div><br> <div class="top_style">Points: </div><br></p> </div>
+ <div class="mycolumn"style="width:30px">
+    <p><h6>Ranging</h6></p>
+    <p style="margin-top:15px"><h6>Name</h6></p>
+    <p style="margin-top:35px"><h6>Country</h6></p>
+    <p style="margin-top:15px"><h6>Points</h6></p>
 
-{% for info in data %}
-  <div style=" margin-left:60px; width: 60px;"><p >{{info[0]}} </p> </div>
-       <div style=" margin-left:140px; width: 60px;"><p >{{info[1]}} </p> </div>
-       <div style=" margin-left:210px; width: 60px;"><p >{{info[2]}} </p> </div>
-       <div style="  margin-left:280px; width: 60px;"><p >{{info[3]}} </p> </div>
-       <div style="  margin-left:350px; width: 60px;"><p >{{info[4]}} </p> </div>
-</p>
-{% endfor %}
-       </div>
+ </div>
+
+      <div class="mycolumn"style="width:30px">
+   {% for info in data %}
+    <p>{{info[0][:20:]}}</p>
+{% endfor %}</div>
+
+       <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[1][:20:]}}</p>
+{% endfor %}</div>
+
+                <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[2][:20:]}}</p>
+{% endfor %}</div>
+
+    <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[3][:20:]}}</p>
+{% endfor %}</div>
+
+<div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[4][:20:]}}</p>
+{% endfor %}</div>
+
 </div>
+
+        <!-- top 5 women -->
       <div id="second">
 <h4><b>Current WSL Top 5 Ranking Woman</b></h4>
-    <h5>Ranking, name, country, points: </h5>
-          <div class="mycolumn">
- <div style=" float:left; width: 60px;"><p >Ranking: <br> <div class="top_style"> Name:</div> <br> <div class="top_style">Country: </div><br> <div class="top_style">Points: </div><br></p> </div>
-{% for info in data %}
-       <div style=" margin-left:60px; width: 60px;"><p >{{info[5]}} </p> </div>
-       <div style=" margin-top:-35px; margin-left:140px; width: 60px;"><p >{{info[6]}} </p> </div>
-       <div style=" margin-top:-35px; margin-left:210px; width: 60px;"><p >{{info[7]}} </p> </div>
-       <div style=" margin-top:-35px; margin-left:280px; width: 60px;"><p >{{info[8]}} </p> </div>
-       <div style=" margin-top:-35px; margin-left:350px; width: 60px;"><p >{{info[9]}} </p> </div>
 
-{% endfor %}
-       </div>
+          <div class="mycolumn"style="width:30px">
+    <p><h6>Ranging</h6></p>
+    <p style="margin-top:15px"><h6>Name</h6></p>
+    <p style="margin-top:35px"><h6>Country</h6></p>
+    <p style="margin-top:15px"><h6>Points</h6></p>
+
+ </div>
+
+      <div class="mycolumn"style="width:30px">
+   {% for info in data %}
+    <p>{{info[5][:20:]}}</p>
+{% endfor %}</div>
+
+       <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[6][:20:]}}</p>
+{% endfor %}</div>
+
+                <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[7][:20:]}}</p>
+{% endfor %}</div>
+
+    <div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[8][:20:]}}</p>
+{% endfor %}</div>
+
+<div class="mycolumn" style="width:50px">
+   {% for info in data %}
+    <p>{{info[9][:20:]}}</p>
+{% endfor %}</div>
+
+
       </div>
           </div>
   <div style="margin-top:10px; text-align:right; color:#810955 !important">
   <a href="https://www.worldsurfleague.com/">Check out WSL for more Details</a>
       </div>
+
+
+   <!-- upcoing events -->
   <div class="myrow">
-<h3 style="text-align:center; margin-top:50px"><b>Upcoming 20 Events</b></h3>
+<h3 style="text-align:center; margin-top:50px"><b>Upcoming Events For The Year</b></h3>
   <div class="mycolumn">  <h4>DATES</h4>
    {% for tour in tours %}
     <p>{{tour[0]}}</p>
@@ -103,15 +155,9 @@
     <p>{{tour[3]}}</p>
 {% endfor %}</div>
 </div>
-
-
-
-
-
-
-
 </div>
 
+   <!-- footer -->
 <div class="wrapper row5 footer-ending">
   <div id="copyright" class="hoc clear">
     &copy; <script>document.write(new Date().getFullYear())</script> <span style="color_white">Luise Schwenke</span>

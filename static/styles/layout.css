@@ -13,6 +13,17 @@ File: Layout CSS
 
 /* added by Luise */
 
+.wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    word-wrap: break-word;
+    z-index: 9999 !important;
+}
+
 .modal-backdrop.show {
     opacity: 0 !important;
 }
@@ -40,20 +51,20 @@ position: relative;
 margin-top:20px;
 }
 #first {
-    width: 500px;
+    width: 600px;
     float:left;
     text-align:center;
 }
 #second {
-width: 500px;
+width: 600px;
 float:right;
     overflow: hidden;
      text-align:center;
+     margin-right:-40px;
 }
 
 .mycolumn {
   float: left;
-  width: 20%;
   margin-top:50px;
   margin-left:10px;
   margin-right:40px;
@@ -115,6 +126,11 @@ opacity: 0.5;
   top: 0;
   width: 100%;
   background:white;
+  z-index: 9999 !important;
+}
+
+#header {
+z-index: 9999 !important;
 }
 
 .sticky {
@@ -123,6 +139,7 @@ opacity: 0.5;
   width: 100%;
   background:white;
   opacity: 1;
+  z-index: 9999 !important;
 
 }
 
