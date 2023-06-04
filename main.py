@@ -1,7 +1,7 @@
-from flask import Flask, abort, render_template, g, redirect, url_for, request, flash, send_from_directory
+from flask import Flask, abort, render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, URL
 from bs4 import BeautifulSoup
 import requests
