@@ -6,7 +6,7 @@ pycountry==22.3.5
 flask==2.2.5
 wtforms==3.0.1
 beautifulsoup4==4.12.2
-werkzeug==2.0.3
+werkzeug==2.2.2
 sqlalchemy==1.4.39
 geopy==2.3.0
 clyent==1.2.1
