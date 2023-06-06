@@ -15,4 +15,4 @@ flask_bootstrap==3.3.7.1
 flask_wtf==1.1.1
 clyent==1.2.1
 nbformat==5.4.0
-
+Flask_SQLAlchemy==3.0.3
