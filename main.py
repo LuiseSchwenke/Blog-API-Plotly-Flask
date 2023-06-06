@@ -21,7 +21,7 @@ import pycountry
 import plotly.express as px
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'SECRET_KEY'
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 
 Bootstrap(app)
 
@@ -389,7 +389,9 @@ def forecast():
     form = FCForm()
     if form.validate_on_submit():
         geolocator = Nominatim(user_agent="MyApp")
-        API_KEY_RL = "SECRET_KEY"
+        API_KEY_RL = "722af78a-fd26-11ed-a654-0242ac130002-722af7f8-fd26-11ed-a654-0242ac130002"
+        API_KEY_LSC="4203370e-ffdb-11ed-a654-0242ac130002-420337ae-ffdb-11ed-a654-0242ac130002"
+        API_KEY_OIBR="a2c8291e-ffd6-11ed-a654-0242ac130002-a2c829dc-ffd6-11ed-a654-0242ac130002"
 
         location = geolocator.geocode(form.name.data)
 
@@ -411,7 +413,7 @@ def forecast():
                                         'end': end.to('UTC').timestamp()
 
                                     },
-                                    headers={'Authorization': API_KEY_RL}
+                                    headers={'Authorization': API_KEY_LSC}
                                     )
 
             data = response.json()
