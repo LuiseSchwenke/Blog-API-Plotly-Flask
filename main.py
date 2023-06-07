@@ -115,7 +115,7 @@ class LoginForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     posts = BlogPost.query.all()
-    post_one = BlogPost.query.get(2)
+    post_one = BlogPost.query.get(1)
     url_of_img_one = post_one.img_url
     beach_name_one = post_one.name_beach
     country_one = post_one.country
