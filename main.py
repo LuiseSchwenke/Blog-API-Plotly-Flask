@@ -29,7 +29,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fullelassurfam.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///newelassurfam.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -50,7 +50,7 @@ def load_user(user_id):
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.id != 2:
+        if current_user.id != 3:
             return abort(403)
         return f(*args, **kwargs)
 
@@ -98,7 +98,7 @@ with app.app_context():
         parent_post = relationship("BlogPost", back_populates="comments")
 
 
-    db.create_all()
+    #db.create_all()
 
 
 class RegisterForm(FlaskForm):
@@ -116,7 +116,7 @@ class LoginForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     posts = BlogPost.query.all()
-    post_one = BlogPost.query.get(3)
+    post_one = BlogPost.query.get(2)
     url_of_img_one = post_one.img_url
     beach_name_one = post_one.name_beach
     country_one = post_one.country
