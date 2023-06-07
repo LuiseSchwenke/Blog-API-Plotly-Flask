@@ -13,6 +13,32 @@ File: Layout CSS
 
 /* added by Luise */
 
+
+.mynewwrapper{
+display: block;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    word-wrap: break-word;
+
+}
+
+.bottomwrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    margin-bottom:0;
+    padding: 0;
+    text-align: left;
+    word-wrap: break-word;
+    z-index: 9999 !important;
+    position: absolute; left: 0; bottom: 0;
+}
+
+
 .wrapper {
     display: block;
     position: relative;
@@ -441,7 +467,7 @@ input:focus, textarea:focus, *:required:focus{border-color:#6AAEBF;}
 .row2{color:#474747; background-color:#F7F7F7;}
 .row3{color:#474747; background-color:transparent;}
 .row4{color:#CBCBCB; background-color:#252525;}
-.row5, .row5 a{color:#CBCBCB; background-color:#810955;}
+.row5, .row5 a{color:#CBCBCB; background-color:#810955; margin-bottom:0}
 
 
 /* Header */

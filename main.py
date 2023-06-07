@@ -116,7 +116,7 @@ class LoginForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     posts = BlogPost.query.all()
-    post_one = BlogPost.query.get(2)
+    post_one = BlogPost.query.get(3)
     url_of_img_one = post_one.img_url
     beach_name_one = post_one.name_beach
     country_one = post_one.country
@@ -178,11 +178,15 @@ def news():
     all_countries = [title.getText() for title in soup.find_all(name="span", class_="athlete-country-name")]
     all_points = [title.getText() for title in soup.find_all(name="span", class_="athlete-points")]
     all_data = {
-        'ranks':all_ranks,
+        'ranks': all_ranks,
         'names': all_names,
         'countries': all_countries,
         'points': all_points,
     }
+    new_countries = all_data["countries"]
+    for i in range(len(new_countries)):
+        if new_countries[i] == 'United States':
+            new_countries[i] = 'USA'
 
     data_one = [elem for elem in all_data.values()]
 
@@ -253,27 +257,27 @@ def best_spots():
         data = {
             "country_name": DBcountries,
             "ISO": codes,
-            "ISO3": ISOS_list
+            "Number of Post Entries": ISOS_list
         }
         df = pd.DataFrame(data)
         df.to_csv("worldmap.csv", encoding='utf-8')
         worldmap_df = pd.read_csv("worldmap.csv")
 
         df_countries = worldmap_df.groupby(['country_name', 'ISO'],
-                                        as_index=False).agg({'ISO3': pd.Series.count})
+                                        as_index=False).agg({'Number of Post Entries': pd.Series.count})
 
         #print(df_countries.head())
 
         world_map = px.choropleth(df_countries,
                                   locations='ISO',
-                                  color='ISO3',
+                                  color='Number of Post Entries',
                                   color_continuous_scale=px.colors.sequential.matter,
                                   )
         world_map.update_layout(coloraxis_showscale=True, )
         world_map.write_image(file='static/images/worldmap.png', format='png')
 
     except:
-        flash("Something went wrong")
+        pass
 
     API_KEY = "AIzaSyBi8kM7dFLb10AxhKxgneOOM-XA0RQWzI4"
 
@@ -380,7 +384,7 @@ def logout():
 
 
 class FCForm(FlaskForm):
-    name = StringField("Name of the beach or city", validators=[DataRequired()])
+    name = StringField("Enter the name of the beach or city you want to check", validators=[DataRequired()])
     submit = SubmitField("Search forecast")
 
 
