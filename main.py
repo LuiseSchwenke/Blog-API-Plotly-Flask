@@ -96,8 +96,7 @@ with app.app_context():
         comment_author = relationship("User", back_populates="comments")
         post_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'))
         parent_post = relationship("BlogPost", back_populates="comments")
-
-
+       
     db.create_all()
 
 
@@ -116,7 +115,7 @@ class LoginForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     posts = BlogPost.query.all()
-    post_one = BlogPost.query.get(2)
+    post_one = BlogPost.query.get(1)
     url_of_img_one = post_one.img_url
     beach_name_one = post_one.name_beach
     country_one = post_one.country
